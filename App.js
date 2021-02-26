@@ -27,6 +27,7 @@ const assetImages = [
 // cache product images
 articles.map(article => assetImages.push(article.image));
 
+
 function cacheImages(images) {
   return images.map(image => {
     if (typeof image === 'string') {
