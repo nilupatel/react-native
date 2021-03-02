@@ -14,30 +14,14 @@ import { Images, nowTheme } from '../constants';
 
 const { width, height } = Dimensions.get('screen');
 
+
 const constraints = {
   email: {
     presence: {
       message: "Cannot be blank."
     },
-    email: {
-      message: 'Please enter a valid email address'
-    }
   },
   password: {
-    presence: {
-      message: "Cannot be blank."
-    },
-    length: {
-      minimum: 6,
-      message: 'Your password must be at least 6 characters'
-    }
-  },
-  firstName: {
-    presence: {
-      message: "Cannot be blank."
-    },
-  },
-  lastName: {
     presence: {
       message: "Cannot be blank."
     },
@@ -73,34 +57,26 @@ const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
-class Register extends React.Component {
+class Login extends React.Component {
   state = {
     email: '',
     emailError: null,
     password: '',
     passwordError: null,
-    firstName: '',
-    firstNameError: null,
-    lastName: '',
-    lastNameError: null,
   }
-  register = () => {
-    let { email, password, firstName,lastName} = this.state;
+  logIn = () => {
+    let { email, password } = this.state;
 
     let emailError = validator('email', email)
     let passwordError = validator('password', password)
-    let firstNameError = validator('firstName', firstName)
-    let lastNameError = validator('lastName', lastName)    
     this.setState({
       emailError: emailError,
-      passwordError: passwordError,
-      firstNameError: firstNameError,
-      lastNameError: lastNameError
+      passwordError: passwordError
     })
   }
   render() {
-    const {emailError, passwordError,firstNameError,lastNameError} = this.state;
-    const { navigation } = this.props;
+    const {emailError, passwordError } = this.state
+    const { navigation } = this.props
     return (
       <DismissKeyboard>
         <Block flex middle>
@@ -110,7 +86,7 @@ class Register extends React.Component {
             imageStyle={styles.imageBackground}
           >
             <Block flex middle>
-              <Block style={styles.registerContainer}>
+              <Block style={styles.loginContainer}>
                 <Block flex space="evenly">
                   <Block flex={0.4} middle style={styles.socialConnect}>
                     <Block flex={0.5} middle>
@@ -122,7 +98,7 @@ class Register extends React.Component {
                         color="#333"
                         size={24}
                       >
-                        Register
+                        Login
                       </Text>
                     </Block>
 
@@ -176,41 +152,9 @@ class Register extends React.Component {
                     </Text>
                   </Block>
                   <Block flex={1} middle space="between">
-                    <Block center flex={0.9}>
+                    <Block center flex={0.7}>
                       <Block flex space="between">
                         <Block>
-                          <Block width={width * 0.8} style={{ marginBottom: '2%' }}>
-                            <Input
-                              placeholder="First Name"
-                              style={firstNameError ? styles.errinputs : styles.inputs}
-                              onChangeText={(firstNameConstraints,firstNameError) => this.setState({firstName: firstNameConstraints,firstNameError:firstNameError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="profile-circle"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block width={width * 0.8} style={{ marginBottom: '2%' }}>
-                            <Input
-                              placeholder="Last Name"
-                              style={lastNameError ? styles.errinputs : styles.inputs}
-                              onChangeText={(lastNameConstraints,lastNameError) => this.setState({lastName: lastNameConstraints,lastNameError:lastNameError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="caps-small2x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
                           <Block width={width * 0.8}>
                             <Input
                               placeholder="Email"
@@ -226,8 +170,8 @@ class Register extends React.Component {
                                 />
                               }
                             />
-                            </Block>
-                            <Block width={width * 0.8}>
+                          </Block>
+                          <Block width={width * 0.8}>
                             <Input
                               placeholder="Password"
                               style={passwordError ? styles.errinputs : styles.inputs}
@@ -245,22 +189,22 @@ class Register extends React.Component {
                           </Block>
                         </Block>
                         <Block center>
-                          <Button color="primary" round style={styles.createButton} onPress={this.register}>
+                          <Button color="primary" round style={styles.createButton} onPress={this.logIn}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               color={nowTheme.COLORS.WHITE}
                             >
-                              Sign-up
+                              Sign-in
                             </Text>
                           </Button>
-                          <Button color='default' round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
+                          <Button color="default" round style={styles.createButton} onPress={() => navigation.navigate('Register')}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={14}
                               color={nowTheme.COLORS.WHITE}
                             >
-                              Go to Login
+                              Go to Register
                             </Text>
                           </Button>
                         </Block>
@@ -281,14 +225,13 @@ const styles = StyleSheet.create({
   imageBackgroundContainer: {
     width: width,
     height: height,
-    padding: 0,
     zIndex: 1
   },
   imageBackground: {
     width: width,
     height: height
   },
-  registerContainer: {
+  loginContainer: {
     marginTop: '5%',
     width: width * 0.9,
     height: height < 812 ? height * 0.8 : height * 0.8,
@@ -363,4 +306,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Register;
+export default Login;

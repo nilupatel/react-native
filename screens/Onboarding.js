@@ -32,7 +32,6 @@ export default class Onboarding extends React.Component {
                     color="white"
                     size={44}
                   >
-                    Now UI
                     React Native
                   </Text>
                 </Block>
