@@ -30,7 +30,7 @@ function CustomDrawerContent({
     "Components",
     "Articles",
     "Profile",
-    "Account",
+    "Register"
   ];
   return (
     <Block
@@ -39,16 +39,8 @@ function CustomDrawerContent({
     >
       <Block style={styles.header}>
         <Image style={styles.logo} source={Images.Logo} />
-        <Block right style={styles.headerIcon}>
-          <Icon
-            name="align-left-22x"
-            family="NowExtra"
-            size={15}
-            color={"white"}
-          />
-        </Block>
       </Block>
-      <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
+      <Block flex style={{ paddingLeft: '4%', paddingRight: '4%' }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           {screens.map((item, index) => {
             return (
@@ -60,16 +52,10 @@ function CustomDrawerContent({
               />
             );
           })}
-          <Block flex style={{ marginTop: 24, marginVertical: 8, paddingHorizontal: 8 }}>
+          <Block flex style={{ marginTop: '8%', marginVertical: '2%', paddingHorizontal: '4%' }}>
           <Block
             style={{ borderColor: 'white', width: '93%', borderWidth: StyleSheet.hairlineWidth, marginHorizontal: 10}}
           />
-          <Text
-            color={nowTheme.COLORS.WHITE}
-            style={{ marginTop: 30, marginLeft: 20, marginBottom: 10, fontFamily: 'montserrat-regular', fontWeight: '300', fontSize: 12}}
-          >
-            DOCUMENTATION
-          </Text>
         </Block>
         <DrawerCustomItem title="GETTING STARTED" navigation={navigation}/>
         <DrawerCustomItem title="LOGOUT" navigation={navigation}/>
@@ -84,13 +70,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    paddingHorizontal: 28,
+    paddingHorizontal: '6%',
     paddingBottom: theme.SIZES.BASE,
     paddingTop: theme.SIZES.BASE * 3,
     justifyContent: "center"
   },
   headerIcon: {
-    marginTop: -20
+    marginTop: '-8%'
   },
   logo: {
     height: 40,

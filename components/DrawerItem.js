@@ -50,7 +50,7 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case "Account":
+      case "Register":
         return (
           <Icon
             name="badge2x"
@@ -60,23 +60,14 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case "Settings":
+        case "Login":
         return (
           <Icon
-            name="settings-gear-642x"
+            name="badge2x"
             family="NowExtra"
             size={18}
             color={focused ? nowTheme.COLORS.PRIMARY : "white"}
             style={{ opacity: 0.5 }}
-          />
-        );
-      case "Examples":
-        return (
-          <Icon
-            name="album"
-            family="NowExtra"
-            size={14}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
           />
         );
       case "GETTING STARTED":
@@ -124,7 +115,7 @@ class DrawerItem extends React.Component {
         }
       >
         <Block flex row style={containerStyles}>
-          <Block middle flex={0.1} style={{ marginRight: 5 }}>
+          <Block middle flex={0.1} style={{ marginRight: '2%' }}>
             {this.renderIcon()}
           </Block>
           <Block row center flex={0.9}>

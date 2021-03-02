@@ -12,7 +12,8 @@ import Register from '../screens/Register';
 import Components from '../screens/Components';
 import Articles from '../screens/Articles';
 import Onboarding from '../screens/Onboarding';
-import SettingsScreen from '../screens/Settings';
+import Login from '../screens/Login'
+
 // drawer
 import CustomDrawerContent from "./Menu";
 // header for screens
@@ -46,17 +47,41 @@ function ArticlesStack(props) {
   );
 }
 
-function AccountStack(props) {
+function LoginStack(props) {
   return (
-    <Stack.Navigator initialRouteName="Account" mode="card" headerMode="screen">
+    <Stack.Navigator initialRouteName="Login" mode="card" headerMode="none">
       <Stack.Screen
-        name="Account"
+        name="Login"
+        component={Login}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header 
+              
+              transparent
+              title=""
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function RegisterStack(props) {
+  return (
+    <Stack.Navigator initialRouteName="Register" mode="card" headerMode="none">
+      <Stack.Screen
+        name="Register"
         component={Register}
         options={{
           header: ({ navigation, scene }) => (
             <Header 
+              
               transparent
-              title="Create Account"
+              title=""
               navigation={navigation}
               scene={scene}
             />
@@ -184,7 +209,8 @@ function AppStack(props) {
       <Drawer.Screen name="Components" component={ComponentsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Account" component={AccountStack} />
+      <Drawer.Screen name="Register" component={RegisterStack} />
+      <Drawer.Screen name="Login" component={LoginStack} />
     </Drawer.Navigator>
   );
 }
