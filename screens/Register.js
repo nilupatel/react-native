@@ -5,41 +5,44 @@ import {
   Dimensions,
   StatusBar,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from 'react-native';
 import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
 import validate from 'validate.js';
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
+import { RFPercentage } from "react-native-responsive-fontsize";
+import  AwesomeAlert  from "react-native-awesome-alerts";
 
-const { width, height } = Dimensions.get('screen');
+const { width, height } = Dimensions.get('window');
 
 const constraints = {
   email: {
     presence: {
-      message: "Cannot be blank."
+      message: "Email can not be blank. \n"
     },
     email: {
-      message: 'Please enter a valid email address'
+      message: 'Please enter a valid email address \n'
     }
   },
   password: {
     presence: {
-      message: "Cannot be blank."
+      message: "Password can not be blank. \n"
     },
     length: {
       minimum: 6,
-      message: 'Your password must be at least 6 characters'
+      message: 'Password must be at least 6 characters \n'
     }
   },
   firstName: {
     presence: {
-      message: "Cannot be blank."
+      message: "First name can not be blank. \n"
     },
   },
   lastName: {
     presence: {
-      message: "Cannot be blank."
+      message: "Last name can not be blank. \n"
     },
   }
 }
@@ -56,7 +59,7 @@ const validator = (field, value) => {
 
   // Validate against the constraint and hold the error messages
   var result = validate({}, constraint)//
-  if (value.trim() != '' && value != null) {//if null value it will return with the presence validation
+  if (value != '' && value != null) {//if null value it will return with the presence validation
      result = validate(object, constraint)
   }
 
@@ -66,7 +69,7 @@ const validator = (field, value) => {
     return result[field][0]
   }
 
-  return null
+  return ''
 }
 
 const DismissKeyboard = ({ children }) => (
@@ -74,15 +77,30 @@ const DismissKeyboard = ({ children }) => (
 );
 
 class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showAlert: false };
+  };
+   showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+  
+   hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
   state = {
     email: '',
-    emailError: null,
+    emailError: '',
     password: '',
-    passwordError: null,
+    passwordError: '',
     firstName: '',
-    firstNameError: null,
+    firstNameError: '',
     lastName: '',
-    lastNameError: null,
+    lastNameError: '',
   }
   register = () => {
     let { email, password, firstName,lastName} = this.state;
@@ -97,175 +115,198 @@ class Register extends React.Component {
       firstNameError: firstNameError,
       lastNameError: lastNameError
     })
+    emailError || passwordError || firstNameError || lastNameError ? this.showAlert() : null 
   }
   render() {
-    const {emailError, passwordError,firstNameError,lastNameError} = this.state;
+    const {emailError, passwordError,firstNameError,lastNameError,showAlert} = this.state;
     const { navigation } = this.props;
     return (
-      <DismissKeyboard>
+      <Block flex middle>
+      {showAlert ? <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Alert!"
+          message={ firstNameError || lastNameError || emailError || passwordError ? 
+            firstNameError + lastNameError + emailError +  passwordError 
+            : null}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText=" OK "
+          confirmButtonColor={nowTheme.COLORS.PRIMARY}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />: null}
+        <DismissKeyboard>
         <Block flex middle>
           <ImageBackground
             source={Images.RegisterBackground}
             style={styles.imageBackgroundContainer}
             imageStyle={styles.imageBackground}
-          >
+            >
             <Block flex middle>
-              <Block style={styles.registerContainer}>
-                <Block flex space="evenly">
-                  <Block flex={0.4} middle style={styles.socialConnect}>
-                    <Block flex={0.5} middle>
-                      <Text
-                        style={{
-                          fontFamily: 'montserrat-regular',
-                          textAlign: 'center'
-                        }}
-                        color="#333"
-                        size={24}
-                      >
-                        Register
-                      </Text>
-                    </Block>
+              <Block style={styles.registerContainer} >
+                <Block flex space="evenly" style={{marginTop:"5%"}}>
+                  <Block flex={1} middle space="evenly">
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                      <Block flex={0.4} middle style={styles.socialConnect}>
+                        <Block flex={0.5} middle>
+                          <Text
+                            style={{
+                              fontFamily: 'montserrat-regular',
+                              textAlign: 'center'
+                            }}
+                            color="#333"
+                            size={RFPercentage(4)}
+                          >
+                            Register
+                          </Text>
+                        </Block>
 
-                    <Block flex={0.5} row middle space="between" style={{ marginBottom: '8%' }}>
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="twitter"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.TWITTER}
-                        style={[styles.social, styles.shadow]}
-                      />
+                        <Block flex={0.5} row middle space="between" style={{ marginBottom: '8%' }}>
+                          <GaButton
+                            round
+                            onlyIcon
+                            shadowless
+                            icon="twitter"
+                            iconFamily="Font-Awesome"
+                            iconColor={theme.COLORS.WHITE}
+                            iconSize={theme.SIZES.BASE * 1.625}
+                            color={nowTheme.COLORS.TWITTER}
+                            style={[styles.social, styles.shadow]}
+                          />
 
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="dribbble"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.DRIBBBLE}
-                        style={[styles.social, styles.shadow]}
-                      />
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="facebook"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.FACEBOOK}
-                        style={[styles.social, styles.shadow]}
-                      />
-                    </Block>
-                  </Block>
-                  <Block flex={0.1} middle>
-                    <Text
-                      style={{
-                        fontFamily: 'montserrat-regular',
-                        textAlign: 'center'
-                      }}
-                      muted
-                      size={16}
-                    >
-                      or be classical
-                    </Text>
-                  </Block>
-                  <Block flex={1} middle space="between">
-                    <Block center flex={0.9}>
-                      <Block flex space="between">
-                        <Block>
-                          <Block width={width * 0.8} style={{ marginBottom: '2%' }}>
-                            <Input
-                              placeholder="First Name"
-                              style={firstNameError ? styles.errinputs : styles.inputs}
-                              onChangeText={(firstNameConstraints,firstNameError) => this.setState({firstName: firstNameConstraints,firstNameError:firstNameError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="profile-circle"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block width={width * 0.8} style={{ marginBottom: '2%' }}>
-                            <Input
-                              placeholder="Last Name"
-                              style={lastNameError ? styles.errinputs : styles.inputs}
-                              onChangeText={(lastNameConstraints,lastNameError) => this.setState({lastName: lastNameConstraints,lastNameError:lastNameError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="caps-small2x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block width={width * 0.8}>
-                            <Input
-                              placeholder="Email"
-                              style={emailError ? styles.errinputs : styles.inputs}
-                              onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="email-852x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
+                          <GaButton
+                            round
+                            onlyIcon
+                            shadowless
+                            icon="dribbble"
+                            iconFamily="Font-Awesome"
+                            iconColor={theme.COLORS.WHITE}
+                            iconSize={theme.SIZES.BASE * 1.625}
+                            color={nowTheme.COLORS.DRIBBBLE}
+                            style={[styles.social, styles.shadow]}
+                          />
+                          <GaButton
+                            round
+                            onlyIcon
+                            shadowless
+                            icon="facebook"
+                            iconFamily="Font-Awesome"
+                            iconColor={theme.COLORS.WHITE}
+                            iconSize={theme.SIZES.BASE * 1.625}
+                            color={nowTheme.COLORS.FACEBOOK}
+                            style={[styles.social, styles.shadow]}
+                          />
+                        </Block>
+                      </Block>
+                      <Block flex={0.1} middle>
+                        <Text
+                          style={{
+                            fontFamily: 'montserrat-regular',
+                            textAlign: 'center'
+                          }}
+                          muted
+                          size={RFPercentage(3)}
+                        >
+                          or be classical
+                        </Text>
+                      </Block>
+                      <Block flex={1} middle space="between">
+                    
+                      <Block center flex={0.9}>
+                        <Block flex space="between">
+                          <Block>
+                            <Block width={width * 0.8} >
+                              <Input
+                                placeholder="First Name"
+                                style={firstNameError ? styles.errinputs : styles.inputs}
+                                onChangeText={(firstNameConstraints,firstNameError) => this.setState({firstName: firstNameConstraints,firstNameError:firstNameError })}
+                                iconContent={
+                                  <Icon
+                                    size={RFPercentage(2)}
+                                    color="#ADB5BD"
+                                    name="profile-circle"
+                                    family="NowExtra"
+                                    style={styles.inputIcons}
+                                  />
+                                }
+                              />
+                            </Block>
+                            <Block width={width * 0.8} >
+                              <Input
+                                placeholder="Last Name"
+                                style={lastNameError ? styles.errinputs : styles.inputs}
+                                onChangeText={(lastNameConstraints,lastNameError) => this.setState({lastName: lastNameConstraints,lastNameError:lastNameError })}
+                                iconContent={
+                                  <Icon
+                                    size={RFPercentage(2)}
+                                    color="#ADB5BD"
+                                    name="caps-small2x"
+                                    family="NowExtra"
+                                    style={styles.inputIcons}
+                                  />
+                                }
+                              />
                             </Block>
                             <Block width={width * 0.8}>
-                            <Input
-                              placeholder="Password"
-                              style={passwordError ? styles.errinputs : styles.inputs}
-                              onChangeText={(passwordConstraints,passwordError) => this.setState({password: passwordConstraints ,passwordError:passwordError })}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="caps-small2x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
+                              <Input
+                                placeholder="Email"
+                                style={emailError ? styles.errinputs : styles.inputs}
+                                onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
+                                iconContent={
+                                  <Icon
+                                    size={RFPercentage(2)}
+                                    color="#ADB5BD"
+                                    name="email-852x"
+                                    family="NowExtra"
+                                    style={styles.inputIcons}
+                                  />
+                                }
+                              />
+                              </Block>
+                              <Block width={width * 0.8}>
+                              <Input
+                                placeholder="Password"
+                                style={passwordError ? styles.errinputs : styles.inputs}
+                                onChangeText={(passwordConstraints,passwordError) => this.setState({password: passwordConstraints ,passwordError:passwordError })}
+                                iconContent={
+                                  <Icon
+                                    size={RFPercentage(2)}
+                                    color="#ADB5BD"
+                                    name="caps-small2x"
+                                    family="NowExtra"
+                                    style={styles.inputIcons}
+                                  />
+                                }
+                              />
+                            </Block>
                           </Block>
-                        </Block>
-                        <Block center>
-                          <Button color="primary" round style={styles.createButton} onPress={this.register}>
-                            <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
-                              size={14}
-                              color={nowTheme.COLORS.WHITE}
-                            >
-                              Sign-up
-                            </Text>
-                          </Button>
-                          <Button color='default' round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
-                            <Text
-                              style={{ fontFamily: 'montserrat-bold' }}
-                              size={14}
-                              color={nowTheme.COLORS.WHITE}
-                            >
-                              Go to Login
-                            </Text>
-                          </Button>
+                          <Block center>
+                            <Button color="primary" round style={styles.createButton} onPress={this.register}>
+                              <Text
+                                style={{ fontFamily: 'montserrat-bold' }}
+                                size={RFPercentage(2)}
+                                color={nowTheme.COLORS.WHITE}
+                              >
+                                Sign-up
+                              </Text>
+                            </Button>
+                            <Button color='default' round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
+                              <Text
+                                style={{ fontFamily: 'montserrat-bold' }}
+                                size={RFPercentage(2)}
+                                color={nowTheme.COLORS.WHITE}
+                              >
+                                Go to Login
+                              </Text>
+                            </Button>
+                          </Block>
                         </Block>
                       </Block>
                     </Block>
+                    </ScrollView>
                   </Block>
                 </Block>
               </Block>
@@ -273,6 +314,7 @@ class Register extends React.Component {
           </ImageBackground>
         </Block>
       </DismissKeyboard>
+      </Block>
     );
   }
 }
@@ -281,23 +323,20 @@ const styles = StyleSheet.create({
   imageBackgroundContainer: {
     width: width,
     height: height,
-    padding: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   imageBackground: {
-    width: width,
-    height: height
+    width: '100%',
+    height: '100%'
   },
   registerContainer: {
-    marginTop: '5%',
     width: width * 0.9,
-    height: height < 812 ? height * 0.8 : height * 0.8,
+    height: height < 720 ? height * 0.85 : height * 0.8,
     backgroundColor: nowTheme.COLORS.WHITE,
     borderRadius: 4,
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
@@ -314,7 +353,6 @@ const styles = StyleSheet.create({
     shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
-      height: 4
     },
     shadowRadius: 8,
     shadowOpacity: 0.1,
@@ -323,7 +361,7 @@ const styles = StyleSheet.create({
   socialTextButtons: {
     color: nowTheme.COLORS.PRIMARY,
     fontWeight: '800',
-    fontSize: 14
+    fontSize: RFPercentage(2)
   },
   inputIcons: {
     marginRight: '2%',
@@ -348,7 +386,6 @@ const styles = StyleSheet.create({
   },
   passwordCheck: {
     paddingLeft: '2%',
-    paddingTop: '2%',
     paddingBottom: '2%'
   },
   createButton: {
