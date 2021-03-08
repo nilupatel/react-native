@@ -15,7 +15,7 @@ import { Images, nowTheme } from '../constants';
 import { RFPercentage } from "react-native-responsive-fontsize";
 import  AwesomeAlert  from "react-native-awesome-alerts";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 
 const constraints = {
   email: {
@@ -121,7 +121,7 @@ class Register extends React.Component {
     const {emailError, passwordError,firstNameError,lastNameError,showAlert} = this.state;
     const { navigation } = this.props;
     return (
-      <Block flex middle>
+    <Block flex middle>
       {showAlert ? <AwesomeAlert
           show={showAlert}
           showProgress={false}
@@ -133,7 +133,7 @@ class Register extends React.Component {
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
           confirmText=" OK "
-          confirmButtonColor={nowTheme.COLORS.PRIMARY}
+          confirmButtonColor={nowTheme.COLORS.ACTIVE}
           onConfirmPressed={() => {
             this.hideAlert();
           }}
@@ -214,8 +214,7 @@ class Register extends React.Component {
                         </Text>
                       </Block>
                       <Block flex={1} middle space="between">
-                    
-                      <Block center flex={0.9}>
+                        <Block center flex={0.9}>
                         <Block flex space="between">
                           <Block>
                             <Block width={width * 0.8} >
@@ -243,7 +242,7 @@ class Register extends React.Component {
                                   <Icon
                                     size={RFPercentage(2)}
                                     color="#ADB5BD"
-                                    name="caps-small2x"
+                                    name="profile-circle"
                                     family="NowExtra"
                                     style={styles.inputIcons}
                                   />
@@ -275,7 +274,7 @@ class Register extends React.Component {
                                   <Icon
                                     size={RFPercentage(2)}
                                     color="#ADB5BD"
-                                    name="caps-small2x"
+                                    name="key-252x"
                                     family="NowExtra"
                                     style={styles.inputIcons}
                                   />
@@ -284,7 +283,7 @@ class Register extends React.Component {
                             </Block>
                           </Block>
                           <Block center>
-                            <Button color="primary" round style={styles.createButton} onPress={this.register}>
+                            <Button color="active" round style={styles.createButton} onPress={this.register}>
                               <Text
                                 style={{ fontFamily: 'montserrat-bold' }}
                                 size={RFPercentage(2)}
@@ -297,7 +296,7 @@ class Register extends React.Component {
                               <Text
                                 style={{ fontFamily: 'montserrat-bold' }}
                                 size={RFPercentage(2)}
-                                color={nowTheme.COLORS.WHITE}
+                                color={nowTheme.COLORS.BLACK}
                               >
                                 Go to Login
                               </Text>
@@ -305,7 +304,7 @@ class Register extends React.Component {
                           </Block>
                         </Block>
                       </Block>
-                    </Block>
+                      </Block>
                     </ScrollView>
                   </Block>
                 </Block>
@@ -314,7 +313,7 @@ class Register extends React.Component {
           </ImageBackground>
         </Block>
       </DismissKeyboard>
-      </Block>
+    </Block>
     );
   }
 }
@@ -374,7 +373,7 @@ const styles = StyleSheet.create({
   },
   errinputs: {
     borderWidth: 1,
-    borderColor: 'red',
+    borderColor: nowTheme.COLORS.ERROR ,
     borderRadius: 21.5,
     shadowOffset: {
       width: 3,

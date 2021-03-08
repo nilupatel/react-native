@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 
 import { Card, Button } from "../components";
-import articles from "../constants/articles";
 const { width } = Dimensions.get("screen");
 
 class Home extends React.Component {
@@ -14,7 +13,7 @@ class Home extends React.Component {
         contentContainerStyle={styles.articles}
       >
         <Block flex>
-        <Card item={articles[0]} horizontal />
+        {/* <Card item={articles[0]} horizontal />
           <Block flex row>
             <Card
               item={articles[1]}
@@ -23,7 +22,7 @@ class Home extends React.Component {
             <Card item={articles[2]} />
           </Block>
           <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full />
+          <Card item={articles[4]} full /> */}
         </Block>
       </ScrollView>
     );
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
   articles: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
-    paddingHorizontal: 2,
+    paddingHorizontal: '1%',
     fontFamily: 'montserrat-regular'
 
   }

@@ -111,7 +111,7 @@ const Profile = () => {
                 row
                 style={{ position: 'absolute', width: width, top: height * 0.6 - 26, zIndex: 99 }}
               >
-                <Button style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }} textStyle={{ fontSize: 16 }} round>
+                <Button color='active' style={{ width: 114, height: 44, marginHorizontal: 5, elevation: 0 }} textStyle={{ fontSize: 16 }} round>
                   Follow
                 </Button>
                 <GaButton
@@ -182,7 +182,7 @@ const Profile = () => {
                 <Button
                   small
                   color="transparent"
-                  textStyle={{ color: nowTheme.COLORS.PRIMARY, fontSize: 14 }}
+                  textStyle={{ color: nowTheme.COLORS.ACTIVE, fontSize: 14 }}
                 >
                   View all
                     </Button>

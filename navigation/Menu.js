@@ -11,7 +11,7 @@ import { Block, Text, theme } from "galio-framework";
 import { useSafeArea } from "react-native-safe-area-context";
 import Images from "../constants/Images";
 import { DrawerItem as DrawerCustomItem, Icon } from "../components";
-
+import {RFPercentage} from "react-native-responsive-fontsize";
 import nowTheme from "../constants/Theme";
 
 const { width } = Dimensions.get("screen");
@@ -28,7 +28,6 @@ function CustomDrawerContent({
   const screens = [
     "Home",
     "Components",
-    "Articles",
     "Profile",
     "Register"
   ];
@@ -54,7 +53,7 @@ function CustomDrawerContent({
           })}
           <Block flex style={{ marginTop: '8%', marginVertical: '2%', paddingHorizontal: '4%' }}>
           <Block
-            style={{ borderColor: 'white', width: '93%', borderWidth: StyleSheet.hairlineWidth, marginHorizontal: 10}}
+            style={{ borderColor: 'black', width: '93%', borderWidth: StyleSheet.hairlineWidth, marginHorizontal: 10}}
           />
         </Block>
         <DrawerCustomItem title="GETTING STARTED" navigation={navigation}/>
@@ -70,6 +69,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
+    height: '15%',
+    width:'100%',
     paddingHorizontal: '6%',
     paddingBottom: theme.SIZES.BASE,
     paddingTop: theme.SIZES.BASE * 3,
@@ -79,8 +80,8 @@ const styles = StyleSheet.create({
     marginTop: '-8%'
   },
   logo: {
-    height: 40,
-    width: 37
+    height: "100%",
+    width:  "20%"
   }
 });
 

@@ -7,7 +7,7 @@ import { Block, GalioProvider } from 'galio-framework';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Screens from './navigation/Screens';
-import { Images, articles, nowTheme } from './constants';
+import { Images, nowTheme } from './constants';
 
 // cache app images
 const assetImages = [
@@ -23,9 +23,6 @@ const assetImages = [
   Images.RegisterBackground,
   Images.ProfileBackground
 ];
-
-// cache product images
-articles.map(article => assetImages.push(article.image));
 
 
 function cacheImages(images) {

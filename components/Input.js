@@ -6,7 +6,7 @@ import { Input } from "galio-framework";
 
 import Icon from './Icon';
 import { nowTheme } from "../constants";
-
+import {RFPercentage} from "react-native-responsive-fontsize";
 class ArInput extends React.Component {
   render() {
     const { shadowless, success, error, primary } = this.props;
@@ -25,10 +25,10 @@ class ArInput extends React.Component {
         placeholder="write something here"
         placeholderTextColor={nowTheme.COLORS.MUTED}
         style={inputStyles}
-        color={nowTheme.COLORS.HEADER}
+        color={nowTheme.COLORS.BLACK}
         iconContent={
           <Icon
-            size={14}
+            size={RFPercentage(2.5)}
             color={nowTheme.COLORS.ICON}
             name="link"
             family="AntDesign"
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 30,
     borderColor: nowTheme.COLORS.BORDER,
-    height: 44,
+    height: RFPercentage(2.5),
     backgroundColor: '#FFFFFF'
   },
   success: {

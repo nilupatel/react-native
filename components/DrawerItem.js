@@ -4,7 +4,7 @@ import { Block, Text, theme } from "galio-framework";
 
 import Icon from "./Icon";
 import nowTheme from "../constants/Theme";
-
+import {RFPercentage} from "react-native-responsive-fontsize";
 class DrawerItem extends React.Component {
   renderIcon = () => {
     const { title, focused } = this.props;
@@ -15,8 +15,8 @@ class DrawerItem extends React.Component {
           <Icon
             name="app2x"
             family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            size={RFPercentage(2.5)}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK }
             style={{ opacity: 0.5 }}
           />
         );
@@ -25,18 +25,8 @@ class DrawerItem extends React.Component {
           <Icon
             name="atom2x"
             family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
-            style={{ opacity: 0.5 }}
-          />
-        );
-      case "Articles":
-        return (
-          <Icon
-            name="paper"
-            family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            size={RFPercentage(2.5)}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
             style={{ opacity: 0.5 }}
           />
         );
@@ -45,8 +35,8 @@ class DrawerItem extends React.Component {
           <Icon
             name="profile-circle"
             family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            size={RFPercentage(2.5)}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
             style={{ opacity: 0.5 }}
           />
         );
@@ -55,18 +45,8 @@ class DrawerItem extends React.Component {
           <Icon
             name="badge2x"
             family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
-            style={{ opacity: 0.5 }}
-          />
-        );
-        case "Login":
-        return (
-          <Icon
-            name="badge2x"
-            family="NowExtra"
-            size={18}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            size={RFPercentage(2.5)}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
             style={{ opacity: 0.5 }}
           />
         );
@@ -75,19 +55,19 @@ class DrawerItem extends React.Component {
           <Icon
             name="spaceship2x"
             family="NowExtra"
-            size={18}
+            size={RFPercentage(2.5)}
             style={{ borderColor: "rgba(0,0,0,0.5)", opacity: 0.5 }}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
           />
         );
       case "LOGOUT":
         return (
           <Icon
-            name="share"
+            name="user-run2x"
             family="NowExtra"
-            size={18}
+            size={RFPercentage(2.5)}
             style={{ borderColor: "rgba(0,0,0,0.5)", opacity: 0.5 }}
-            color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
           />
         );
       default:
@@ -105,7 +85,7 @@ class DrawerItem extends React.Component {
 
     return (
       <TouchableOpacity
-        style={{ height: 60 }}
+        style={{ height: RFPercentage(8) }}
         onPress={() =>
           title == "GETTING STARTED"
             ? Linking.openURL(
@@ -125,9 +105,9 @@ class DrawerItem extends React.Component {
                 textTransform: "uppercase",
                 fontWeight: "300"
               }}
-              size={12}
+              size={RFPercentage(2)}
               bold={focused ? true : false}
-              color={focused ? nowTheme.COLORS.PRIMARY : "white"}
+              color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
             >
               {title}
             </Text>
@@ -140,17 +120,17 @@ class DrawerItem extends React.Component {
 
 const styles = StyleSheet.create({
   defaultStyle: {
-    paddingVertical: 15,
-    paddingHorizontal: 14,
+    paddingVertical: '2%',
+    paddingHorizontal: '3%',
     color: "white"
   },
   activeStyle: {
-    backgroundColor: nowTheme.COLORS.WHITE,
+    backgroundColor: nowTheme.COLORS.ACTIVE,
     borderRadius: 30,
     color: "white"
   },
   shadow: {
-    shadowColor: theme.COLORS.BLACK,
+    shadowColor: nowTheme.COLORS.BLACK,
     shadowOffset: {
       width: 0,
       height: 2

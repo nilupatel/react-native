@@ -5,72 +5,35 @@ import { Block, Button, Text, theme } from 'galio-framework';
 const { height, width } = Dimensions.get('screen');
 import { Images, nowTheme } from '../constants/';
 import { HeaderHeight } from '../constants/utils';
-
+import { RFPercentage } from "react-native-responsive-fontsize"; 
 export default class Onboarding extends React.Component {
   render() {
     const { navigation } = this.props;
 
     return (
-      <Block flex style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Block flex>
+        <Block flex style={styles.container}>
           <ImageBackground
             source={Images.Onboarding}
-            style={{ flex: 1, height: height, width, zIndex: 1 }}
+            style={{ height: height, width, zIndex: 1 , opacity: 0.6}}
           />
           <Block space="between" style={styles.padded}>
             <Block>
               <Block middle>
-                <Image source={Images.NowLogo} style={{ width: 115, height: 124, bottom: 200, position: 'absolute' }} />
+                <Image source={Images.Logo} style={{ width: '50%', height: RFPercentage(20), bottom: RFPercentage(30), position: 'absolute' }} />
               </Block>
               <Block>
                 <Block middle>
                   <Text
                     style={{
-                      fontFamily: 'montserrat-regular', bottom: 50, position: 'absolute', letterSpacing: 2, paddingHorizontal: 20, textAlign: 'center'
+                      fontFamily: 'montserrat-regular', bottom: RFPercentage(8), position: 'absolute', letterSpacing: 2, paddingHorizontal: '2%', textAlign: 'center'
                     }}
                     color="white"
-                    size={44}
+                    size={RFPercentage(5)}
                   >
-                    React Native
+                    Hotel Management
                   </Text>
                 </Block>
               </Block>
-              <Block middle row>
-                <Text
-                  color="white"
-                  size={16}
-                  style={{ fontFamily: 'montserrat-regular' }}
-                >
-                  Designed by
-                </Text>
-                <Image
-                  source={Images.InvisionLogo}
-                  style={{
-                    height: 28,
-                    width: 91,
-                    marginLeft: theme.SIZES.BASE
-                  }}
-                />
-              </Block>
-              <Block middle row style={{ marginTop: 15, marginBottom: 30}}>
-                <Text
-                  color="white"
-                  size={16}
-                  style={{ fontFamily: 'montserrat-regular' }}
-                >
-                  Coded by
-                </Text>
-                <Image
-                  source={Images.CreativeTimLogo}
-                  style={{
-                    height: 29,
-                    width: 129,
-                    marginLeft: theme.SIZES.BASE
-                  }}
-                />
-              </Block>
-
               <Block
                 row
                 style={{
@@ -85,8 +48,8 @@ export default class Onboarding extends React.Component {
                   onPress={() => navigation.navigate('App')}
                 >
                   <Text
-                    style={{ fontFamily: 'montserrat-bold', fontSize: 14 }}
-                    color={theme.COLORS.WHITE}
+                    style={{ fontFamily: 'montserrat-bold', fontSize: RFPercentage(2) }}
+                    color={theme.COLORS.BLACK}
                   >
                     GET STARTED
                   </Text>
@@ -95,7 +58,6 @@ export default class Onboarding extends React.Component {
             </Block>
           </Block>
         </Block>
-      </Block>
     );
   }
 }
@@ -103,7 +65,7 @@ export default class Onboarding extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.COLORS.BLACK,
-    marginTop: Platform.OS === 'android' ? -HeaderHeight : 0
+    height: height
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
@@ -117,13 +79,4 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0
   },
-
-  gradient: {
-    zIndex: 1,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 66
-  }
 });

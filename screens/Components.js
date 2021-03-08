@@ -9,12 +9,11 @@ import {
   ImageBackground
 } from 'react-native';
 
-import Articles from '../screens/Articles';
 // Galio components
 import { Block, Text, Button as GaButton, theme } from 'galio-framework';
 
 // Now UI themed components
-import { Images, nowTheme, articles, tabs } from '../constants';
+import { Images, nowTheme, tabs } from '../constants';
 import { Button, Select, Icon, Input, Header, Switch } from '../components';
 
 import Img from '../components/Img';
@@ -359,7 +358,7 @@ class Components extends React.Component {
         </Text>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
           <Block style={styles.rows}>
-            <TouchableOpacity onPress={() => navigation.navigate('Pro')}>
+            <TouchableOpacity>
               <Block row middle space="between" style={{ paddingTop: 7 }}>
                 <Text
                   style={{ fontFamily: 'montserrat-regular' }}
@@ -477,52 +476,6 @@ class Components extends React.Component {
       </Block>
     );
   };
-
-
-  renderCards = () => {
-    scrollX = new Animated.Value(0);
-    cards = [articles[5], articles[6]]
-    return (
-      <Block flex style={styles.group}>
-
-        <Articles />
-        <Block flex card center shadow style={styles.category}>
-          <ImageBackground
-            source={Images.Products['path']}
-            style={[
-              styles.imageBlock,
-              { width: width - theme.SIZES.BASE * 2, height: 252 }
-            ]}
-            imageStyle={{
-              width: width - theme.SIZES.BASE * 2,
-              height: 252
-            }}
-          >
-            <Block style={styles.categoryTitle}>
-              <Text size={18} bold color={theme.COLORS.WHITE}>
-                View article
-              </Text>
-            </Block>
-          </ImageBackground>
-        </Block>
-        <ScrollView
-          horizontal={true}
-          style={styles.contentContainer}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          contentContainerStyle={{
-            width: width * 2
-          }}>
-          {cards.map((item, index) => {
-            return <Card key={index} item={item} full titleStyle={styles.productTitle} imageStyle={ { height: 300, width: '100%', resizeMode: 'contain' } }/>
-          })}
-        </ScrollView>
-
-      </Block>
-
-    );
-  };
   renderAlbums = () => {
     const { navigation } = this.props;
 
@@ -563,7 +516,6 @@ class Components extends React.Component {
           {this.renderTableCell()}
           {this.renderNavigation()}
           {this.renderSocial()}
-          {this.renderCards()}
           {this.renderAlbums()}
         </ScrollView>
       </Block>

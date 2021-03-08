@@ -22,11 +22,6 @@ const constraints = {
     presence: {
       message: "Email can not be blank. \n"
     },
-  },
-  password: {
-    presence: {
-      message: "Password can not be blank. \n"
-    },
   }
 }
 
@@ -59,7 +54,7 @@ const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
-class Login extends React.Component {
+class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showAlert: false };
@@ -78,22 +73,18 @@ class Login extends React.Component {
   state = {
     email: '',
     emailError: '',
-    password: '',
-    passwordError: '',
   }
-  logIn = () => {
-    let { email, password } = this.state;
+  forgotpassword = () => {
+    let { email} = this.state;
 
     let emailError = validator('email', email)
-    let passwordError = validator('password', password)
     this.setState({
       emailError: emailError,
-      passwordError: passwordError
     })
-    emailError || passwordError ? this.showAlert() : null
+    emailError ? this.showAlert() : null
   }
   render() {
-    const {emailError, passwordError,showAlert } = this.state
+    const {emailError,showAlert } = this.state
     const { navigation } = this.props
     return (
     <Block flex middle>
@@ -101,9 +92,7 @@ class Login extends React.Component {
           show={showAlert}
           showProgress={false}
           title="Alert!"
-          message={ emailError || passwordError ? 
-            emailError +  passwordError 
-            : null}
+          message={ emailError ? emailError : null}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
@@ -121,12 +110,11 @@ class Login extends React.Component {
             imageStyle={styles.imageBackground}
             >
             <Block flex middle>
-              <Block style={styles.loginContainer}>
+              <Block style={styles.forgotPasswordContainer}>
                 <Block flex space="evenly" style={{marginTop:"5%"}}>
                   <Block flex={1} middle space="evenly">
                     <ScrollView showsVerticalScrollIndicator={false}>
-                      <Block flex={0.4} middle style={styles.socialConnect}>
-                        <Block flex={0.5} middle>
+                          <Block flex marginBottom="5%">
                           <Text
                             style={{
                               fontFamily: 'montserrat-regular',
@@ -135,66 +123,12 @@ class Login extends React.Component {
                             color="#333"
                             size={RFPercentage(4)}
                           >
-                            Login
+                            Forgot Password 
                           </Text>
-                        </Block>
-
-                        <Block flex={0.5} row middle space="between" style={{ marginBottom: '8%' }}>
-                          <GaButton
-                            round
-                            onlyIcon
-                            shadowless
-                            icon="twitter"
-                            iconFamily="Font-Awesome"
-                            iconColor={theme.COLORS.WHITE}
-                            iconSize={theme.SIZES.BASE * 1.625}
-                            color={nowTheme.COLORS.TWITTER}
-                            style={[styles.social, styles.shadow]}
-                          />
-
-                          <GaButton
-                            round
-                            onlyIcon
-                            shadowless
-                            icon="dribbble"
-                            iconFamily="Font-Awesome"
-                            iconColor={theme.COLORS.WHITE}
-                            iconSize={theme.SIZES.BASE * 1.625}
-                            color={nowTheme.COLORS.DRIBBBLE}
-                            style={[styles.social, styles.shadow]}
-                          />
-                          <GaButton
-                            round
-                            onlyIcon
-                            shadowless
-                            icon="facebook"
-                            iconFamily="Font-Awesome"
-                            iconColor={theme.COLORS.WHITE}
-                            iconSize={theme.SIZES.BASE * 1.625}
-                            color={nowTheme.COLORS.FACEBOOK}
-                            style={[styles.social, styles.shadow]}
-                          />
-                        </Block>
-                      </Block>
-                      <Block flex={0.1} middle>
-                        <Text
-                          style={{
-                            fontFamily: 'montserrat-regular',
-                            textAlign: 'center'
-                          }}
-                          muted
-                          size={RFPercentage(3)}
-                        >
-                          or be classical
-                        </Text>
-                      </Block>
-                      <Block flex={1} middle space="between">
-                        <Block center flex={0.7}>
-                      <Block flex space="between">
-                        <Block>
+                          </Block>
                           <Block width={width * 0.8}>
                             <Input
-                              placeholder="Email"
+                              placeholder="Enter your registered email"
                               style={emailError ? styles.errinputs : styles.inputs}
                               onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
                               iconContent={
@@ -208,49 +142,26 @@ class Login extends React.Component {
                               }
                             />
                           </Block>
-                          <Block width={width * 0.8}>
-                            <Input
-                              placeholder="Password"
-                              style={passwordError ? styles.errinputs : styles.inputs}
-                              onChangeText={(passwordConstraints,passwordError) => this.setState({password: passwordConstraints ,passwordError:passwordError })}
-                              iconContent={
-                                <Icon
-                                  size={RFPercentage(2)}
-                                  color="#ADB5BD"
-                                  name="key-252x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                        </Block>
-                        <Block middle flex marginVertical='4%'>
-                          <Text size={RFPercentage(2)} onPress={() => navigation.navigate('ForgotPassword')}> Forgot password?</Text>
-                        </Block>
                         <Block center>
-                          <Button color="active" round style={styles.createButton} onPress={this.logIn}>
+                          <Button color="active" round style={styles.createButton} onPress={this.forgotpassword}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={RFPercentage(2)}
                               color={nowTheme.COLORS.WHITE}
                             >
-                              Sign-in
+                              Send email
                             </Text>
                           </Button>
-                          <Button color="default" round style={styles.createButton} onPress={() => navigation.navigate('Register')}>
+                          <Button color="default" round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={RFPercentage(2)}
                               color={nowTheme.COLORS.BLACK}
                             >
-                              Go to Register
+                              Back to Login
                             </Text>
                           </Button>
                         </Block>
-                      </Block>
-                    </Block>
-                      </Block>
                     </ScrollView>
                   </Block>
                 </Block>
@@ -274,10 +185,10 @@ const styles = StyleSheet.create({
     width: width,
     height: height
   },
-  loginContainer: {
+  forgotPasswordContainer: {
     
     width: width * 0.9,
-    height: height < 720 ? height * 0.85 : height * 0.8,
+    height: height < 720 ? height * 0.45 : height * 0.4,
     backgroundColor: nowTheme.COLORS.WHITE,
     borderRadius: 4,
     shadowColor: nowTheme.COLORS.BLACK,
@@ -349,4 +260,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default ForgotPassword;

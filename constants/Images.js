@@ -1,5 +1,5 @@
 // local imgs
-const Onboarding = require('../assets/imgs/getPro-bg-1.png');
+const Onboarding = require('../assets/imgs/InitialBg.jpg');
 const Logo = require('../assets/imgs/hotel_logo.png');
 const ProfileBackground = require('../assets/imgs/bg5.png');
 const RegisterBackground = require('../assets/imgs/register-bg.png');
@@ -12,12 +12,6 @@ const CreativeTimLogo = require('../assets/imgs/creative-tim-white-slim2.png');
 const InvisionLogo = require('../assets/imgs/invision-white-slim.png');
 
 const Viewed = [
-  require('../assets/imgs/project5.jpg'),
-  require('../assets/imgs/project7.jpg'),
-  require('../assets/imgs/project6.jpg'),
-  require('../assets/imgs/project4.jpg'),
-  require('../assets/imgs/project21.jpg'),
-  require('../assets/imgs/project24.jpg')
 ];
 
 const Products = {
