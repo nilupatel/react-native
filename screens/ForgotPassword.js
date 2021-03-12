@@ -53,7 +53,10 @@ const validator = (field, value) => {
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
-
+const state = {
+  email: '',
+  emailError: '',
+}
 class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
@@ -70,10 +73,6 @@ class ForgotPassword extends React.Component {
       showAlert: false
     });
   };
-  state = {
-    email: '',
-    emailError: '',
-  }
   forgotpassword = () => {
     let { email} = this.state;
 
@@ -129,6 +128,7 @@ class ForgotPassword extends React.Component {
                           <Block width={width * 0.8}>
                             <Input
                               placeholder="Enter your registered email"
+                              value={this.state.email}
                               style={emailError ? styles.errinputs : styles.inputs}
                               onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
                               iconContent={
@@ -152,7 +152,7 @@ class ForgotPassword extends React.Component {
                               Send email
                             </Text>
                           </Button>
-                          <Button color="default" round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
+                          <Button color="default" round style={styles.createButton} onPress={() => {this.setState(state),navigation.navigate('Login')}}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={RFPercentage(2)}

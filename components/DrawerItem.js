@@ -40,26 +40,6 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case "Register":
-        return (
-          <Icon
-            name="badge2x"
-            family="NowExtra"
-            size={RFPercentage(2.5)}
-            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
-            style={{ opacity: 0.5 }}
-          />
-        );
-      case "GETTING STARTED":
-        return (
-          <Icon
-            name="spaceship2x"
-            family="NowExtra"
-            size={RFPercentage(2.5)}
-            style={{ borderColor: "rgba(0,0,0,0.5)", opacity: 0.5 }}
-            color={focused ? nowTheme.COLORS.WHITE : nowTheme.COLORS.BLACK}
-          />
-        );
       case "LOGOUT":
         return (
           <Icon
@@ -86,12 +66,8 @@ class DrawerItem extends React.Component {
     return (
       <TouchableOpacity
         style={{ height: RFPercentage(8) }}
-        onPress={() =>
-          title == "GETTING STARTED"
-            ? Linking.openURL(
-                "https://demos.creative-tim.com/now-ui-pro-react-native/docs/"
-              ).catch(err => console.error("An error occurred", err))
-            : navigation.navigate(title == 'LOGOUT' ? 'Onboarding' : title)
+        onPress={() =>{
+         navigation.navigate(title == 'LOGOUT' ? 'Onboarding' : title)}
         }
       >
         <Block flex row style={containerStyles}>

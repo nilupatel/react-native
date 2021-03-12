@@ -162,9 +162,6 @@ function AppStack(props) {
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Components" component={ComponentsStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Register" component={RegisterStack} />
-      <Drawer.Screen name="Login" component={LoginStack} />
-      <Drawer.Screen name="ForgotPassword" component={ForgotPasswordStack} />
     </Drawer.Navigator>
   );
 }
@@ -180,6 +177,9 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="Register" component={RegisterStack} />
+      <Stack.Screen name="Login" component={LoginStack} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordStack} />
     </Stack.Navigator>
   );
 }

@@ -14,6 +14,7 @@ import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
 import { RFPercentage } from "react-native-responsive-fontsize";
 import  AwesomeAlert  from "react-native-awesome-alerts";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -59,6 +60,12 @@ const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
 
+const state = {
+  email: '',
+  emailError: '',
+  password: '',
+  passwordError: '',
+}
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -75,12 +82,25 @@ class Login extends React.Component {
       showAlert: false
     });
   };
-  state = {
-    email: '',
-    emailError: '',
-    password: '',
-    passwordError: '',
-  }
+  
+  loginSuccess = () => {
+    const data = { email:this.state.email,
+      password:this.state.password };
+
+      fetch('http://localhost:8080/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        }).then((response) => response.json())
+        .then((response) => {if (response.accessToken) {this.props.navigation.navigate('App') ; alert("Login Successfully")}
+        else{alert("Login Failed")}console.log(response)})
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+  };
+
   logIn = () => {
     let { email, password } = this.state;
 
@@ -90,10 +110,13 @@ class Login extends React.Component {
       emailError: emailError,
       passwordError: passwordError
     })
-    emailError || passwordError ? this.showAlert() : null
+    emailError || passwordError ? this.showAlert() : this.loginSuccess()
   }
+  clearState = () =>{
+    this.setState(state);
+    }
   render() {
-    const {emailError, passwordError,showAlert } = this.state
+    const {emailError,passwordError,showAlert } = this.state
     const { navigation } = this.props
     return (
     <Block flex middle>
@@ -114,6 +137,7 @@ class Login extends React.Component {
            }}
       />: null} 
       <DismissKeyboard>
+        <SafeAreaView>
         <Block flex middle>
           <ImageBackground
             source={Images.RegisterBackground}
@@ -195,6 +219,7 @@ class Login extends React.Component {
                           <Block width={width * 0.8}>
                             <Input
                               placeholder="Email"
+                              value={this.state.email }
                               style={emailError ? styles.errinputs : styles.inputs}
                               onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
                               iconContent={
@@ -211,6 +236,8 @@ class Login extends React.Component {
                           <Block width={width * 0.8}>
                             <Input
                               placeholder="Password"
+                              secureTextEntry={true}
+                              value={this.state.password}
                               style={passwordError ? styles.errinputs : styles.inputs}
                               onChangeText={(passwordConstraints,passwordError) => this.setState({password: passwordConstraints ,passwordError:passwordError })}
                               iconContent={
@@ -226,7 +253,7 @@ class Login extends React.Component {
                           </Block>
                         </Block>
                         <Block middle flex marginVertical='4%'>
-                          <Text size={RFPercentage(2)} onPress={() => navigation.navigate('ForgotPassword')}> Forgot password?</Text>
+                          <Text size={RFPercentage(2)} onPress={() => {this.clearState(),navigation.navigate('ForgotPassword')}}> Forgot password?</Text>
                         </Block>
                         <Block center>
                           <Button color="active" round style={styles.createButton} onPress={this.logIn}>
@@ -238,7 +265,7 @@ class Login extends React.Component {
                               Sign-in
                             </Text>
                           </Button>
-                          <Button color="default" round style={styles.createButton} onPress={() => navigation.navigate('Register')}>
+                          <Button color="default" round style={styles.createButton} onPress={() => {this.clearState() ,navigation.navigate('Register')}}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={RFPercentage(2)}
@@ -258,6 +285,7 @@ class Login extends React.Component {
             </Block>
           </ImageBackground>
         </Block>
+        </SafeAreaView>
       </DismissKeyboard>
     </Block>
     );

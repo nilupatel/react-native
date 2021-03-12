@@ -14,6 +14,8 @@ import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
 import { RFPercentage } from "react-native-responsive-fontsize";
 import  AwesomeAlert  from "react-native-awesome-alerts";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 const { width, height } = Dimensions.get('screen');
 
@@ -31,7 +33,7 @@ const constraints = {
       message: "Password can not be blank. \n"
     },
     length: {
-      minimum: 6,
+      minimum: 8,
       message: 'Password must be at least 6 characters \n'
     }
   },
@@ -40,10 +42,14 @@ const constraints = {
       message: "First name can not be blank. \n"
     },
   },
-  lastName: {
-    presence: {
-      message: "Last name can not be blank. \n"
-    },
+  confirmPassword: {
+    equality: {
+      attribute: "password",
+      message: "Password do not match\n",
+      comparator: function(v1) {
+        return v1.confirmPassword === v1.password;
+      }
+    }
   }
 }
 
@@ -75,7 +81,16 @@ const validator = (field, value) => {
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>{children}</TouchableWithoutFeedback>
 );
-
+const state = {
+  firstName: '',
+  firstNameError: '',
+  email: '',
+  emailError: '',
+  password: '',
+  passwordError: '',
+  confirmPassword: '',
+  confirmPasswordError: '',
+}
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -92,33 +107,43 @@ class Register extends React.Component {
       showAlert: false
     });
   };
-  state = {
-    email: '',
-    emailError: '',
-    password: '',
-    passwordError: '',
-    firstName: '',
-    firstNameError: '',
-    lastName: '',
-    lastNameError: '',
-  }
-  register = () => {
-    let { email, password, firstName,lastName} = this.state;
 
+  registerSuccess = () => {
+    const data = { name: this.state.firstName,
+    email:this.state.email,
+    password:this.state.password };
+
+  fetch('http://localhost:8080/v1/auth/register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+  }).then(this.props.navigation.navigate('Login'), alert("Registerd Successfully"))
+  .catch((error) => {
+  console.error('Error:', error);
+  });
+};
+  register = () => {
+    let {firstName, email, password, confirmPassword} = this.state;
+    let firstNameError = validator('firstName', firstName)
     let emailError = validator('email', email)
     let passwordError = validator('password', password)
-    let firstNameError = validator('firstName', firstName)
-    let lastNameError = validator('lastName', lastName)    
+    let confirmPasswordError = validator('confirmPassword', { confirmPassword:confirmPassword, password:password})    
     this.setState({
+      firstNameError: firstNameError,
       emailError: emailError,
       passwordError: passwordError,
-      firstNameError: firstNameError,
-      lastNameError: lastNameError
+      confirmPasswordError: confirmPasswordError
     })
-    emailError || passwordError || firstNameError || lastNameError ? this.showAlert() : null 
+    emailError || passwordError || firstNameError || confirmPasswordError ? this.showAlert() : this.registerSuccess()
   }
+  onLoginClick = () =>{
+    this.setState(state);
+    this.props.navigation.navigate('Login');
+    }
   render() {
-    const {emailError, passwordError,firstNameError,lastNameError,showAlert} = this.state;
+    const {emailError,passwordError,firstNameError,confirmPasswordError,showAlert} = this.state;
     const { navigation } = this.props;
     return (
     <Block flex middle>
@@ -126,8 +151,8 @@ class Register extends React.Component {
           show={showAlert}
           showProgress={false}
           title="Alert!"
-          message={ firstNameError || lastNameError || emailError || passwordError ? 
-            firstNameError + lastNameError + emailError +  passwordError 
+          message={ firstNameError || confirmPasswordError || emailError || passwordError ? 
+            firstNameError + emailError +  passwordError + confirmPasswordError
             : null}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
@@ -139,6 +164,7 @@ class Register extends React.Component {
           }}
         />: null}
         <DismissKeyboard>
+          <SafeAreaView>
         <Block flex middle>
           <ImageBackground
             source={Images.RegisterBackground}
@@ -220,24 +246,9 @@ class Register extends React.Component {
                             <Block width={width * 0.8} >
                               <Input
                                 placeholder="First Name"
+                                value={this.state.firstName}
                                 style={firstNameError ? styles.errinputs : styles.inputs}
                                 onChangeText={(firstNameConstraints,firstNameError) => this.setState({firstName: firstNameConstraints,firstNameError:firstNameError })}
-                                iconContent={
-                                  <Icon
-                                    size={RFPercentage(2)}
-                                    color="#ADB5BD"
-                                    name="profile-circle"
-                                    family="NowExtra"
-                                    style={styles.inputIcons}
-                                  />
-                                }
-                              />
-                            </Block>
-                            <Block width={width * 0.8} >
-                              <Input
-                                placeholder="Last Name"
-                                style={lastNameError ? styles.errinputs : styles.inputs}
-                                onChangeText={(lastNameConstraints,lastNameError) => this.setState({lastName: lastNameConstraints,lastNameError:lastNameError })}
                                 iconContent={
                                   <Icon
                                     size={RFPercentage(2)}
@@ -252,6 +263,7 @@ class Register extends React.Component {
                             <Block width={width * 0.8}>
                               <Input
                                 placeholder="Email"
+                                value={this.state.email}
                                 style={emailError ? styles.errinputs : styles.inputs}
                                 onChangeText={(emailConstraints,emailError) => this.setState({email: emailConstraints,emailError:emailError })}
                                 iconContent={
@@ -268,6 +280,8 @@ class Register extends React.Component {
                               <Block width={width * 0.8}>
                               <Input
                                 placeholder="Password"
+                                secureTextEntry={true}
+                                value={this.state.password}
                                 style={passwordError ? styles.errinputs : styles.inputs}
                                 onChangeText={(passwordConstraints,passwordError) => this.setState({password: passwordConstraints ,passwordError:passwordError })}
                                 iconContent={
@@ -275,6 +289,24 @@ class Register extends React.Component {
                                     size={RFPercentage(2)}
                                     color="#ADB5BD"
                                     name="key-252x"
+                                    family="NowExtra"
+                                    style={styles.inputIcons}
+                                  />
+                                }
+                              />
+                            </Block>
+                            <Block width={width * 0.8} >
+                              <Input
+                                placeholder="Confirm Password"
+                                secureTextEntry={true}
+                                value={this.state.confirmPassword}
+                                style={confirmPasswordError ? styles.errinputs : styles.inputs}
+                                onChangeText={(confirmPasswordConstraints,confirmPasswordError) => this.setState({confirmPassword: confirmPasswordConstraints,confirmPasswordError:confirmPasswordError })}
+                                iconContent={
+                                  <Icon
+                                    size={RFPercentage(2)}
+                                    color="#ADB5BD"
+                                    name="profile-circle"
                                     family="NowExtra"
                                     style={styles.inputIcons}
                                   />
@@ -292,7 +324,7 @@ class Register extends React.Component {
                                 Sign-up
                               </Text>
                             </Button>
-                            <Button color='default' round style={styles.createButton} onPress={() => navigation.navigate('Login')}>
+                            <Button color='default' round style={styles.createButton} onPress={this.onLoginClick}>
                               <Text
                                 style={{ fontFamily: 'montserrat-bold' }}
                                 size={RFPercentage(2)}
@@ -312,6 +344,7 @@ class Register extends React.Component {
             </Block>
           </ImageBackground>
         </Block>
+        </SafeAreaView>
       </DismissKeyboard>
     </Block>
     );

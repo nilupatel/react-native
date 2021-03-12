@@ -14,12 +14,12 @@ export default class Onboarding extends React.Component {
         <Block flex style={styles.container}>
           <ImageBackground
             source={Images.Onboarding}
-            style={{ height: height, width, zIndex: 1 , opacity: 0.6}}
+            style={{ height: height, width, zIndex: 1 , opacity: 0.4}}
           />
           <Block space="between" style={styles.padded}>
             <Block>
               <Block middle>
-                <Image source={Images.Logo} style={{ width: '50%', height: RFPercentage(20), bottom: RFPercentage(30), position: 'absolute' }} />
+                <Image source={Images.Logo} style={{ width: RFPercentage(25), height: RFPercentage(25), bottom: RFPercentage(30), position: 'absolute' }} />
               </Block>
               <Block>
                 <Block middle>
@@ -45,7 +45,7 @@ export default class Onboarding extends React.Component {
                   shadowless
                   style={styles.button}
                   color={nowTheme.COLORS.PRIMARY}
-                  onPress={() => navigation.navigate('App')}
+                  onPress={() => navigation.navigate('Register')}
                 >
                   <Text
                     style={{ fontFamily: 'montserrat-bold', fontSize: RFPercentage(2) }}

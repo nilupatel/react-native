@@ -29,7 +29,6 @@ function CustomDrawerContent({
     "Home",
     "Components",
     "Profile",
-    "Register"
   ];
   return (
     <Block
@@ -56,7 +55,6 @@ function CustomDrawerContent({
             style={{ borderColor: 'black', width: '93%', borderWidth: StyleSheet.hairlineWidth, marginHorizontal: 10}}
           />
         </Block>
-        <DrawerCustomItem title="GETTING STARTED" navigation={navigation}/>
         <DrawerCustomItem title="LOGOUT" navigation={navigation}/>
         </ScrollView>
       </Block>
@@ -76,12 +74,9 @@ const styles = StyleSheet.create({
     paddingTop: theme.SIZES.BASE * 3,
     justifyContent: "center"
   },
-  headerIcon: {
-    marginTop: '-8%'
-  },
   logo: {
-    height: "100%",
-    width:  "20%"
+    height: RFPercentage(8),
+    width:  RFPercentage(8)
   }
 });
 
